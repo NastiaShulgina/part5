@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Blog from '../components/Blog';
 import blogService from '../services/blogs';
 
-const BlogForm = ({ blogs, setBlogs, popupMessage, setPopupMessage }) => {
+const BlogForm = ({ blogs, setBlogs, popupMessage, setPopupMessage, setShowBlogForm }) => {
     const [newBlog, setNewBlog] = useState({
         title: '',
         author: '',
@@ -44,32 +44,35 @@ const BlogForm = ({ blogs, setBlogs, popupMessage, setPopupMessage }) => {
     }
 
     return (
-        <form onSubmit={addBlog}>
-            <h1>Create new blog</h1>
-            <input
-                type="text"
-                name="title"
-                value={newBlog.title}
-                onChange={handleBlogChange}
-                placeholder="title"
-            />
-            <input
-                type="text"
-                name="author"
-                value={newBlog.author}
-                onChange={handleBlogChange}
-                placeholder="author"
-            />
-            <input
-                type="text"
-                name="url"
-                value={newBlog.url}
-                onChange={handleBlogChange}
-                placeholder="url"
-            />
-            <button type="submit">create</button>
-            {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
-        </form>
+        <div>
+            <form onSubmit={addBlog}>
+                <h1>Create new blog</h1>
+                <input
+                    type="text"
+                    name="title"
+                    value={newBlog.title}
+                    onChange={handleBlogChange}
+                    placeholder="title"
+                />
+                <input
+                    type="text"
+                    name="author"
+                    value={newBlog.author}
+                    onChange={handleBlogChange}
+                    placeholder="author"
+                />
+                <input
+                    type="text"
+                    name="url"
+                    value={newBlog.url}
+                    onChange={handleBlogChange}
+                    placeholder="url"
+                />
+                <button type="submit">create</button>
+                <button onClick={() => setShowBlogForm(false)}>cancel</button>
+                {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+            </form>
+        </div>
     )
 }
 
