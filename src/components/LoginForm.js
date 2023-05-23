@@ -1,6 +1,6 @@
 import loginService from '../services/login'
 
-const LoginForm = ({ username, setUsername, password, setPassword, setUser, setErrorMessage }) => {
+const LoginForm = ({ username, setUsername, password, setPassword, setUser, setPopupMessage }) => {
     const handleLogin = async (event) => {
         event.preventDefault()
 
@@ -16,9 +16,15 @@ const LoginForm = ({ username, setUsername, password, setPassword, setUser, setE
             setUsername('')
             setPassword('')
         } catch (exception) {
-            setErrorMessage('Wrong credentials')
+            setPopupMessage({
+                text: 'wrong username or password',
+                class: 'error'
+            })
             setTimeout(() => {
-                setErrorMessage(null)
+                setPopupMessage({
+                    text: null,
+                    class: ''
+                })
             }, 5000)
         }
     }
