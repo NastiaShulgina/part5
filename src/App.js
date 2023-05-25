@@ -48,7 +48,7 @@ const App = () => {
         <BlogForm newBlog={newBlog} setNewBlog={setNewBlog} blogs={blogs} setBlogs={setBlogs}
           setPopupMessage={setPopupMessage} setShowBlogForm={setShowBlogForm} />
         : <button onClick={() => setShowBlogForm(true)}>new note</button>}
-      {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+      {blogs.map(blog => <Blog key={blog.id} blog={blog} user={user.username} />)}
     </div>
   )
 
