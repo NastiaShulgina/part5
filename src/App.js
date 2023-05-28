@@ -38,6 +38,12 @@ const App = () => {
     window.localStorage.clear()
   }
 
+  const renderSortedBlogs = (blogs) => {
+    blogs.sort((a, b) => b.likes - a.likes)
+    return blogs.map(blog => <Blog key={blog.id} blogs={blogs} blog={blog} user={user.username} setPopupMessage={setPopupMessage} />
+    )
+  }
+
   const blogsList = () => (
     <div>
       <h1>blogs</h1>
@@ -48,7 +54,7 @@ const App = () => {
         <BlogForm newBlog={newBlog} setNewBlog={setNewBlog} blogs={blogs} setBlogs={setBlogs}
           setPopupMessage={setPopupMessage} setShowBlogForm={setShowBlogForm} />
         : <button onClick={() => setShowBlogForm(true)}>new note</button>}
-      {blogs.map(blog => <Blog key={blog.id} blog={blog} user={user.username} setPopupMessage={setPopupMessage} />)}
+      {renderSortedBlogs(blogs)}
     </div>
   )
 
