@@ -27,7 +27,6 @@ const BlogForm = ({ blogs, setBlogs, popupMessage, setPopupMessage, setShowBlogF
                     text: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
                     class: 'success'
                 })
-                console.log(popupMessage)
                 setTimeout(() => {
                     setPopupMessage({
                         text: null,

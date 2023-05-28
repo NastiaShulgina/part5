@@ -37,7 +37,20 @@ const addLike = async (blogId) => {
   } catch (error) {
     console.error('error updating blog post likes:', error)
   }
-};
+}
+
+const deleteBlog = async (blogId) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  try {
+    const response = await axios.delete(`${baseUrl}/${blogId}`, config)
+    return response.status === 204
+  } catch (error) {
+    console.error('Error deleting blog post:', error)
+  }
+}
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, setToken, addLike }
+export default { getAll, create, setToken, addLike, deleteBlog }

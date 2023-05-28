@@ -40,7 +40,9 @@ const App = () => {
 
   const renderSortedBlogs = (blogs) => {
     blogs.sort((a, b) => b.likes - a.likes)
-    return blogs.map(blog => <Blog key={blog.id} blogs={blogs} blog={blog} user={user.username} setPopupMessage={setPopupMessage} />
+    // const registeredUser = user.username
+    return blogs.map(blog => <Blog key={blog.id} blogs={blogs} blog={blog} registeredUser={user.username} 
+      setPopupMessage={setPopupMessage} />
     )
   }
 

@@ -2,8 +2,13 @@ import Togglable from "./Togglable"
 import blogService from '../services/blogs'
 import { useState } from "react"
 
-const Blog = ({ blog, user, setPopupMessage }) => {
+const Blog = ({ blog, registeredUser, setPopupMessage }) => {
   const [likesAmount, setLikesAmount] = useState(blog.likes)
+
+  const blogUserIsRegistered = () => {
+    return blog.user?.username === registeredUser
+  }
+
 
   const blogStyle = {
     paddingTop: 10,
@@ -37,6 +42,35 @@ const Blog = ({ blog, user, setPopupMessage }) => {
     }
   }
 
+  const handleDelete = async () => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      try {
+        await blogService.deleteBlog(blog.id)
+        setPopupMessage({
+          text: 'Blog post deleted successfully',
+          class: 'success'
+        })
+        setTimeout(() => {
+          setPopupMessage({
+            text: null,
+            class: ''
+          })
+        }, 5000)
+      } catch (exception) {
+        setPopupMessage({
+          text: 'Error deleting blog post',
+          class: 'error'
+        })
+        setTimeout(() => {
+          setPopupMessage({
+            text: null,
+            class: ''
+          })
+        }, 5000)
+      }
+    }
+  };
+
   return (
     <div style={blogStyle}>
       {blog.title} by {blog.author}
@@ -53,8 +87,9 @@ const Blog = ({ blog, user, setPopupMessage }) => {
           </span>
         </div>
         <div>
-          <span>user: </span>
-          <span>{user}</span>
+          <span>author: </span>
+          {blog.user !== undefined ? <span>{blog.user.username}</span> : <span>created by system</span>}
+          {blogUserIsRegistered() && <button type="delete" onClick={() => handleDelete(blog.id)}>delete</button>}
         </div>
       </Togglable>
     </div>
