@@ -6,21 +6,23 @@ const BlogForm = ({ blogs, setBlogs, popupMessage, setPopupMessage, setShowBlogF
     const [newBlog, setNewBlog] = useState({
         title: '',
         author: '',
-        url: ''
-    });
+        url: '',
+        likes: null
+    })
 
     const addBlog = (event) => {
         event.preventDefault()
         const blogObject = {
             title: newBlog.title,
             author: newBlog.author,
-            url: newBlog.url
+            url: newBlog.url,
+            likes: newBlog.likes
         }
 
         blogService.create(blogObject)
             .then(returnedBlog => {
                 setBlogs(blogs.concat(returnedBlog))
-                setNewBlog({ title: '', author: '', url: '' })
+                setNewBlog({ title: '', author: '', url: '', likes: 0 })
                 setPopupMessage({
                     text: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
                     class: 'success'
@@ -62,11 +64,18 @@ const BlogForm = ({ blogs, setBlogs, popupMessage, setPopupMessage, setShowBlogF
                     placeholder="author"
                 />
                 <input
-                    type="text"
+                    type="url"
                     name="url"
                     value={newBlog.url}
                     onChange={handleBlogChange}
                     placeholder="url"
+                />
+                <input
+                    type="number"
+                    name="likes"
+                    value={newBlog.likes}
+                    onChange={handleBlogChange}
+                    placeholder="likes"
                 />
                 <button type="submit">create</button>
                 <button onClick={() => setShowBlogForm(false)}>cancel</button>

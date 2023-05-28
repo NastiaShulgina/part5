@@ -8,9 +8,9 @@ const setToken = newToken => {
   token = `Bearer ${newToken}`
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+const getAll = async () => {
+  const response = await axios.get(baseUrl)
+  return response.data
 }
 
 const create = async newObject => {
@@ -22,5 +22,22 @@ const create = async newObject => {
   return response.data
 }
 
+const addLike = async (blogId) => {
+  try {
+    const response = await axios.get(`${blogId}`)
+    const currentLikes = response.data.likes
+
+    const newLikes = currentLikes + 1
+    const updateResponse = await axios.put(`${blogId}`, { likes: newLikes })
+
+    console.log('Blog post likes updated:', updateResponse.data)
+
+    return updateResponse.data
+
+  } catch (error) {
+    console.error('error updating blog post likes:', error)
+  }
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, setToken }
+export default { getAll, create, setToken, addLike }
