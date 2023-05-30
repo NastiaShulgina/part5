@@ -16,6 +16,8 @@ const App = () => {
     class: ''
   })
 
+  // const registeredUser = user?.username || null
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
@@ -54,7 +56,7 @@ const App = () => {
       <br />
       {showBlogForm ?
         <BlogForm newBlog={newBlog} setNewBlog={setNewBlog} blogs={blogs} setBlogs={setBlogs}
-          setPopupMessage={setPopupMessage} setShowBlogForm={setShowBlogForm} />
+          setPopupMessage={setPopupMessage} setShowBlogForm={setShowBlogForm} user={user} />
         : <button onClick={() => setShowBlogForm(true)}>new note</button>}
       {renderSortedBlogs(blogs)}
     </div>

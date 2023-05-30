@@ -1,36 +1,60 @@
-import React, { useState } from 'react';
-import Blog from '../components/Blog';
-import blogService from '../services/blogs';
+import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
-const BlogForm = ({ blogs, setBlogs, popupMessage, setPopupMessage, setShowBlogForm }) => {
+const BlogForm = ({ blogs, setBlogs, setPopupMessage, setShowBlogForm, registeredUser, user }) => {
     const [newBlog, setNewBlog] = useState({
         title: '',
         author: '',
         url: '',
-        likes: null
+        likes: null,
+        creator: ''
     })
+
+    // const creator = user?.username
 
     const addBlog = (event) => {
         event.preventDefault()
+
+        const creator = user?.username
+        console.log(creator)
+    
+        if (!newBlog.title || !newBlog.author || !newBlog.url) {
+            setPopupMessage({
+                text: "please fill in all required fields",
+                class: "error"
+            })
+            setTimeout(() => {
+                setPopupMessage({
+                    text: null,
+                    class: ""
+                })
+            }, 5000)
+            return
+        }
+    
         const blogObject = {
             title: newBlog.title,
             author: newBlog.author,
             url: newBlog.url,
-            likes: newBlog.likes
+            likes: newBlog.likes,
+            creator: creator
         }
 
-        blogService.create(blogObject)
-            .then(returnedBlog => {
+        console.log(blogObject)
+    
+        blogService
+            .create(blogObject)
+            .then((returnedBlog) => {
                 setBlogs(blogs.concat(returnedBlog))
-                setNewBlog({ title: '', author: '', url: '', likes: 0 })
+                setNewBlog({ title: "", author: "", url: "", likes: 0 })
                 setPopupMessage({
                     text: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
-                    class: 'success'
-                })
+                    class: "success"
+                });
                 setTimeout(() => {
                     setPopupMessage({
                         text: null,
-                        class: ''
+                        class: ""
                     })
                 }, 5000)
             })
@@ -78,10 +102,9 @@ const BlogForm = ({ blogs, setBlogs, popupMessage, setPopupMessage, setShowBlogF
                 />
                 <button type="submit">create</button>
                 <button onClick={() => setShowBlogForm(false)}>cancel</button>
-                {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
             </form>
         </div>
     )
 }
 
-export default BlogForm;
+export default BlogForm

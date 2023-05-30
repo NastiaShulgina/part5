@@ -24,13 +24,13 @@ const create = async newObject => {
 
 const addLike = async (blogId) => {
   try {
-    const response = await axios.get(`blogs/${blogId}`)
+    const response = await axios.get(`${blogId}`)
     const currentLikes = response.data.likes
 
     const newLikes = currentLikes + 1
-    const updateResponse = await axios.put(`blogs/${blogId}`, { likes: newLikes })
+    const updateResponse = await axios.put(`${blogId}`, { likes: newLikes })
 
-    console.log('Blog post likes updated:', updateResponse.data)
+    console.log('blog post likes updated:', updateResponse.data)
 
     return updateResponse.data
 
